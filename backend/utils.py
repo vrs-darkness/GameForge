@@ -5,7 +5,8 @@ from celery import Celery
 # import asyncio
 import json
 load_dotenv()
-celery = Celery("worker", broker='redis://localhost:6379/0', backend='redis://localhost:6379/0')
+celery = Celery("worker", broker='redis://localhost:6379/0',
+                backend='redis://localhost:6379/0')
 
 
 @celery.task

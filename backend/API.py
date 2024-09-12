@@ -8,6 +8,13 @@ import json
 app = FastAPI()
 
 
+@app.add_middleware('http')
+async def Middle(Request: Request, call_next):
+    if (Request.method == 'OPTIONS'):
+        await call_next()
+#     pass
+
+
 @app.post("/Task/ask")
 async def Task(request: Request, data: Get):
     """
@@ -41,6 +48,10 @@ async def Task(request: Request, data: Get):
 
 @app.get("/Task/get/{id}")
 async def Getter(request_id: str):
+    """
+        This helps to retrive
+        the data from the backend
+    """
     try:
         print(request_id)
         response = {
