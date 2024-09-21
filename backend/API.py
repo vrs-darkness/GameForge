@@ -1,18 +1,40 @@
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, Request, Depends
 from fastapi.responses import JSONResponse
-from req.model import Get
+from req.model import Get, USER
 import uuid
+from comman import get_db
 from utils import Answer
+from query.db_utils import create_user_in_db
 import json
 
 app = FastAPI()
 
 
-@app.add_middleware('http')
-async def Middle(Request: Request, call_next):
-    if (Request.method == 'OPTIONS'):
-        await call_next()
-#     pass
+# @app.add_middleware('http')
+# async def Middle(Request: Request, call_next):
+#     if (Request.method == 'OPTIONS'):
+#         await call_next()
+# #     pass
+
+
+@app.post("/create/user")
+async def Create_user(req: Request, Request: USER, db=Depends(get_db)):
+    try:
+        response = create_user_in_db(username=Request.username,
+                                     Name=Request.Name,
+                                     Password=Request.Password,
+                                     mail=Request.mail,
+                                     db=db)
+        if (response):
+            payload = {'message': "Successfully Created!!"}
+            return JSONResponse(payload, status_code=200)
+        else:
+            payload = {'message': "Some Issues Encountered!!"}
+            return JSONResponse(payload, status_code=500)
+    except Exception as e:
+        print(e)
+        payload = {'message': "Some Issues Encountered!!"}
+        return JSONResponse(payload, status_code=500)
 
 
 @app.post("/Task/ask")
