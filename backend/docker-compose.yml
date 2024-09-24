@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  db:
+      image: postgres:latest
+      environment:
+        POSTGRES_USER: uname
+        POSTGRES_DB: dbname
+        POSTGRES_PASSWORD: pwd
+      ports:
+        - "5432:5432"
+      volumes:
+        - db-data: path
+
+volumes:
+  db-data: 
