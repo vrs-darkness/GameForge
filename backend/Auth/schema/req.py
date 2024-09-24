@@ -1,14 +1,13 @@
 from pydantic import BaseModel
 
 
-class Token(BaseModel):
-
+class USER(BaseModel):
     username: str
-    password: str
-
-
-class CreateUser(BaseModel):
     Name: str
+    Password: str
+    mail: str
+
+
+class Login(BaseModel):
     username: str
-    password: str
-    subscriped: str
+    Password: str

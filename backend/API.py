@@ -1,44 +1,30 @@
 from fastapi import FastAPI, Request, Depends
 from fastapi.responses import JSONResponse
-from req.model import Get, USER
+from Auth.routes.user import router
 import uuid
 from comman import get_db
+from req.model import Get
 from utils import Answer
-from query.db_utils import create_user_in_db
 import json
 
 app = FastAPI()
+app.include_router(router)
 
+Excluded_paths = ['/token', '/create/user']
 
 # @app.add_middleware('http')
 # async def Middle(Request: Request, call_next):
 #     if (Request.method == 'OPTIONS'):
 #         await call_next()
-# #     pass
-
-
-@app.post("/create/user")
-async def Create_user(req: Request, Request: USER, db=Depends(get_db)):
-    try:
-        response = create_user_in_db(username=Request.username,
-                                     Name=Request.Name,
-                                     Password=Request.Password,
-                                     mail=Request.mail,
-                                     db=db)
-        if (response):
-            payload = {'message': "Successfully Created!!"}
-            return JSONResponse(payload, status_code=200)
-        else:
-            payload = {'message': "Some Issues Encountered!!"}
-            return JSONResponse(payload, status_code=500)
-    except Exception as e:
-        print(e)
-        payload = {'message': "Some Issues Encountered!!"}
-        return JSONResponse(payload, status_code=500)
+#     if (Request.url in Excluded_paths):
+#         call_next()
+#     else:
+#         pass
 
 
 @app.post("/Task/ask")
-async def Task(request: Request, data: Get):
+async def Task(request: Request, data: Get,
+               db=Depends(get_db)):
     """
     This API gamifies the Project to be made
     and gives back the steps as an output to
@@ -69,7 +55,7 @@ async def Task(request: Request, data: Get):
 
 
 @app.get("/Task/get/{id}")
-async def Getter(request_id: str):
+async def Getter(request_id: str, db=Depends(get_db)):
     """
         This helps to retrive
         the data from the backend

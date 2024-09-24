@@ -1,5 +1,5 @@
 from sqlalchemy.orm import declarative_base
-from sqlalchemy import String, Integer, JSON, Column, ForeignKey
+from sqlalchemy import String, Integer, JSON, Column, ForeignKey, DateTime
 from sqlalchemy.orm import mapped_column
 
 Base = declarative_base()
@@ -25,3 +25,23 @@ class Data(Base):
     request = Column(JSON)
     response_Status = Column(Integer)
     response = Column(JSON)
+
+
+class Client(Base):
+    # Storing JWT Token for each person
+    __tablename__ = 'Client_data'
+
+    ID = mapped_column(ForeignKey('User_data.id'),primary_key=True)
+    token = Column(String)
+    updated_at = Column(DateTime)
+
+
+class Request_table(Base):
+    # For Storing result of each request
+    __tablename__ = 'Request_data'
+
+    request_id = Column(String, primary_key=True)
+    ID = mapped_column(ForeignKey('User_data.id'))
+    request = Column(JSON)
+    response = Column(JSON)
+    created_at = Column(DateTime)
