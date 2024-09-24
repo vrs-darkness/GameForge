@@ -93,7 +93,8 @@ def Write_token(Information: dict,
                 db: Session):
     """ Creating Token for the user"""
     try:
-        expires = datetime.now() + timedelta(minutes=int(os.getenv('Time_Delay')))
+        expires = datetime.now() + timedelta(minutes=int(
+            os.getenv('Time_Delay')))
         Information['expires'] = expires.strftime('%m/%d/%y %H:%M:%S')
         token = jwt.encode(Information, os.getenv('Key'), os.getenv('Algo'))
         # print(Information['id'])

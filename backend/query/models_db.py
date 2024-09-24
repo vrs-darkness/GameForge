@@ -31,7 +31,7 @@ class Client(Base):
     # Storing JWT Token for each person
     __tablename__ = 'Client_data'
 
-    ID = mapped_column(ForeignKey('User_data.id'),primary_key=True)
+    ID = mapped_column(ForeignKey('User_data.id'), primary_key=True)
     token = Column(String)
     updated_at = Column(DateTime)
 
