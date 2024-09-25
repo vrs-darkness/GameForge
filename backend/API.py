@@ -1,5 +1,6 @@
 from fastapi import FastAPI, Request, Depends
 from fastapi.responses import JSONResponse
+from fastapi.middleware.cors import CORSMiddleware
 from Auth.routes.user import router
 import uuid
 from comman import get_db
@@ -8,7 +9,15 @@ from utils import Answer
 import json
 
 app = FastAPI()
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"]
+)
 app.include_router(router)
+
 
 Excluded_paths = ['/token', '/create/user']
 
