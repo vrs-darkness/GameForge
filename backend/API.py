@@ -110,10 +110,11 @@ async def Getter(request: Request, request_id: str, db=Depends(get_db)):
     try:
         # print(request_id)
         pos, payload = response_get(request_id, db)
+        # print(payload['response']['checkpoint_1'])
         if (pos == 1):
             response = {
                 "id": request_id,
-                "payload": payload,
+                "payload": json.loads(payload['response']),
                 "status": "Success"
             }
             request.state.response = response
