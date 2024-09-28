@@ -2,8 +2,8 @@ from fastapi import FastAPI, Request, Depends
 from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 from Auth.routes.user import router
-import uuid
-from comman import get_db
+from comman import get_db, generate_uuid, GET_USER_REQUEST
+from query.db_utils import store_request, Check_Token, response_get
 from req.model import Get
 from utils import Answer
 import json
@@ -19,16 +19,52 @@ app.add_middleware(
 app.include_router(router)
 
 
-Excluded_paths = ['/token', '/create/user']
+Excluded_paths = ['/token', '/create/user', '/docs', '/openapi.json']
 
-# @app.add_middleware('http')
-# async def Middle(Request: Request, call_next):
-#     if (Request.method == 'OPTIONS'):
-#         await call_next()
-#     if (Request.url in Excluded_paths):
-#         call_next()
-#     else:
-#         pass
+
+@app.middleware('http')
+async def Middle(Request: Request, call_next):
+    if (Request.method == "OPTIONS"):
+        response = await call_next(Request)
+        return response
+    uuid_request = generate_uuid()
+    Request.state.uuid = uuid_request
+    request_obj = await GET_USER_REQUEST(Request, uuid_request)
+    if (Request.url.path not in Excluded_paths):
+        # print(Request.url)
+        if ("Authorization" not in Request.headers):
+            response = {
+                "message": "Authorization header Missing!!",
+                "status_code": 401
+            }
+            request_obj.response = str(response)
+            store_request(uuid_request, request_obj)
+            return JSONResponse(response, 401)
+        elif ("Bearer" not in Request.headers['Authorization']):
+            response = {
+                "message": "Bearer Token not Found",
+                "status_code": 401
+            }
+            request_obj.response = str(response)
+            store_request(uuid_request, request_obj)
+            return JSONResponse(response, 401)
+        else:
+            # print(Request.headers['Authorization'][7:])
+            response, id = Check_Token(Request.headers['Authorization'][7:])
+            # print(response)
+            # print(id)
+            request_obj.ID = id
+            Request.state.id = id
+    else:
+        Request.state.id = None
+    # print(Request.url.path)
+    response = await call_next(Request)
+
+    if Request.url.path in ['/docs', '/openapi.json']:
+        return response
+    request_obj.response = str(Request.state.response)
+    store_request(uuid_request, request_obj)
+    return response
 
 
 @app.post("/Task/ask")
@@ -40,7 +76,7 @@ async def Task(request: Request, data: Get,
     the user
     """
     try:
-        uuid_new = uuid.uuid4()
+        uuid_new = request.state.uuid
         Language = data.Language
         Game = data.Game
         Payload = {
@@ -52,6 +88,7 @@ async def Task(request: Request, data: Get,
             "id": uuid_new,
             "status": "Processing"
         }
+        request.state.response = response
         response = json.dumps(response, default=str)
         return JSONResponse(response, status_code=202)
     except Exception as e:
@@ -60,28 +97,39 @@ async def Task(request: Request, data: Get,
             "id": uuid_new,
             "status": "Failed"
         }
+        request.state.response = response
         return JSONResponse(response, status_code=500)
 
 
 @app.get("/Task/get/{id}")
-async def Getter(request_id: str, db=Depends(get_db)):
+async def Getter(request: Request, request_id: str, db=Depends(get_db)):
     """
         This helps to retrive
         the data from the backend
     """
     try:
-        print(request_id)
-        response = {
-            "id": request_id,
-            "payload": None,
-            "status": "Success"
-        }
-        return JSONResponse(response, status_code=200)
+        # print(request_id)
+        pos, payload = response_get(request_id, db)
+        if (pos == 1):
+            response = {
+                "id": request_id,
+                "payload": payload,
+                "status": "Success"
+            }
+            request.state.response = response
+            return JSONResponse(response, status_code=200)
+        else:
+            response = {
+                "id": request_id,
+                "payload": "Unable to fetch"
+            }
+            request.state.response = response
+            return JSONResponse(response, status_code=100)
     except Exception as e:
         print(e)
         response = {
             "id": request_id,
-            "payload": None,
-            "status": "Success"
+            "Message": "Unable to fetch right Now!!"
         }
+        request.state.response = response
         return JSONResponse(response, status_code=500)

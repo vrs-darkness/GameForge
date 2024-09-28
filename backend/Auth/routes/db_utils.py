@@ -5,7 +5,8 @@ import jwt
 import os
 from dotenv import load_dotenv
 from datetime import datetime, timedelta
-load_dotenv()
+BASE_DIR = '.env'
+load_dotenv(BASE_DIR)
 
 
 def Encrypt(data: str):

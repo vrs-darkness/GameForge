@@ -30,22 +30,26 @@ async def Find_user(req: Request, login: Login, db=Depends(get_db)):
                     "access-token": token,
                     "access-type": "Bearer"
                 }
+                req.state.response = payload
                 return JSONResponse(payload, status_code=200)
             else:
                 payload = {
                     "message": "unable to create a token"
                 }
+                req.state.response = payload
                 return JSONResponse(payload, status_code=500)
         else:
             payload = {
                     "message": "unable to create a token"
                 }
+            req.state.response = payload
             return JSONResponse(payload, status_code=500)
     except Exception as e:
         print("/Token", e)
         payload = {
                     "message": "unable to create a token"
                 }
+        req.state.response = payload
         return JSONResponse(payload, status_code=500)
 
 
@@ -59,11 +63,14 @@ async def Create_user(req: Request, Request: USER, db=Depends(get_db)):
                                      db=db)
         if (response):
             payload = {'message': "Successfully Created!!"}
+            req.state.response = payload
             return JSONResponse(payload, status_code=200)
         else:
             payload = {'message': "Some Issues Encountered!!"}
+            req.state.response = payload
             return JSONResponse(payload, status_code=500)
     except Exception as e:
         print(e)
         payload = {'message': "Some Issues Encountered!!"}
+        req.state.response = payload
         return JSONResponse(payload, status_code=500)
