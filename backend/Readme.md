@@ -59,15 +59,12 @@ pip install -r requirements.py
     AZURE_API_VERSION=2024-02-01
     AZURE_API_URL=https://your-azure-api-url.com
     AZURE_DEPLOYMENT_NAME=your_deployment_name
-
     # Database Configuration
     db_name=your_database_name
     db_user=your_database_user
     db_password=your_secure_password
-
     # Google API Configuration
     GOOGLE_API_KEY=your_google_api_key
-
     # Application Settings
     Time_Delay=30  # Time delay in seconds
     Key=your_secret_key
@@ -110,9 +107,10 @@ With the servers running, you can now create a new user via the `/create/user` e
 curl -X POST "http://localhost:8000/create/user" \
      -H "Content-Type: application/json" \
      -d '{
-           "username": "your_username",
-           "password": "your_password",
-           "email": "your_email@example.com"
+           "username": "string",
+           "Name": "string",
+           "Password": "string",
+           "mail": "string"
          }'
 ```
 
