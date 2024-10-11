@@ -1,0 +1,123 @@
+
+
+html,
+body {
+  height: 100%;
+  width: 100%;
+}
+.main{
+    /* this is for the over-all middle alignment*/
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Poppins', sans-serif;
+}
+.login-main{
+    /* this is for the inner two parts to be held one on top and other at bottom*/
+    display: block;
+    flex-direction: column;
+    width: 28%;
+    height: 50%;
+    margin: 5%;
+    border-style: solid ;
+    border-radius: 10px;
+    border-width: 2px;
+}
+.login-top {
+    /*this is for the items inside top to be alined as a hole*/
+    /* background-color: pink; */
+    display: flex;
+    flex-direction: column;
+    padding-left: 25px;
+}
+.login-top .top-items{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center ;
+}
+.login-top .top-items .logo-img{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.login-top .top-items .logo-img .logo{
+    width: 15%;
+    margin-bottom: 1px;
+}
+.login-top .top-items .logo-img .logo-text{
+    /* width: 15%; */
+    margin-top: 1px;
+}
+.login-top .down-items{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between ;
+}
+.login-top .down-items .Google{
+    display: flex;
+    border-color: darkgray;
+    border-style: solid;
+    border-width: 2px;
+    border-radius: 5px;
+    padding-left: 20px;
+    margin: 0 25px; 
+}
+.login-top .down-items .Google .logo-g
+{
+    width: 50%;
+}
+.login-middle{
+    display: flex;
+    align-items: center;
+    text-align: center;
+    margin: 20px 0;
+}
+.login-middle::before,
+.login-middle::after{
+    content: '';
+    flex: 1;
+    border-bottom: 0.5px solid darkgray;
+}
+.login-middle::before{
+    margin-left: 5px;
+    width: 1%;
+}
+.login-middle::after{
+    margin-left: 1px;
+}
+.login-bottom {
+    /* background-color: blueviolet; */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: 25px;
+    font-size: medium;
+}
+.login-bottom .type1{
+    height: 25px;
+    width: 350px;
+    border-radius: 5px;
+    border-style: solid;
+    border-color: darkgrey;
+    border-width: 1px;
+    margin:5px ;
+    padding: 10px;
+}
+.login-bottom .login-signup{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+}
+.login-forms .button{
+    height: 40px;
+    width: 100%;
+    border-radius: 10px;
+    border-style: solid;
+    border-color: darkgrey;
+    border-width: 1px;
+    color: white;
+    background-color: black;
+}
