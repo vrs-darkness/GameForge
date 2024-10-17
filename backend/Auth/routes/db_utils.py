@@ -97,8 +97,8 @@ def Write_token(Information: dict,
         expires = datetime.now() + timedelta(minutes=int(
             os.getenv('Time_Delay')))
         Information['expires'] = expires.strftime('%m/%d/%y %H:%M:%S')
-        token = jwt.encode(Information, os.getenv('Key'), os.getenv('Algo'))
-        # print(Information['id'])
+        token = jwt.encode(payload=Information, key=os.getenv('Key'),
+                           algorithm=os.getenv('Algo'))
         response = Token(uid=Information['id'],
                          token=token,
                          db=db)
