@@ -1,0 +1,34 @@
+/* Reset some default styles */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html, body {
+    height: 100%;
+    width: 100%;
+    font-family: 'Poppins', sans-serif;
+    background-color: black; /* Black background for the home page */
+    color: white; /* White text color */
+    position: relative;
+    overflow: hidden;
+}
+
+.home-page{
+    display: flex;
+    flex-direction: column;
+}
+.home-page .nav{
+    height: 30px;
+}
+.home-options{
+    display: flex;
+    flex-direction: column;
+}
+.forms {
+    display: flex;
+    flex-direction: column;
+    border-color: white;
+    border-style: solid;
+}

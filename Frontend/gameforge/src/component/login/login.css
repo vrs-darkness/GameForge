@@ -10,19 +10,26 @@ body {
     height: 100%;
     width: 100%;
     font-family: 'Poppins', sans-serif;
+    /* background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+    background-size: 400% 400%;
+    animation: gradientBG 15s ease infinite; */
+    position: relative;
+    overflow: hidden;
+}
+
+/* .login-page {
+    height: 100vh;
+    width: 100%;
     background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
     background-size: 400% 400%;
     animation: gradientBG 15s ease infinite;
-    position: relative;
-    overflow: hidden;
 }
 
 @keyframes gradientBG {
     0% { background-position: 0% 50%; }
     50% { background-position: 100% 50%; }
     100% { background-position: 0% 50%; }
-}
-
+} */
 .main{
     /* Over-all middle alignment */
     display: flex;
@@ -162,6 +169,7 @@ body {
     padding: 10px;
     cursor: pointer;
     transition: background-color 0.3s, transform 0.3s;
+    color: black;
 }
 
 .down-items .Google:hover,
@@ -221,6 +229,7 @@ body {
 .login-forms input[type='email'],
 .login-forms input[type='password']{
     width: 100%;
+    height: 45px;
     padding: 10px;
     margin-bottom: 15px;
     border: 1px solid darkgray;
