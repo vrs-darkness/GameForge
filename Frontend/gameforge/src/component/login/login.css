@@ -10,14 +10,14 @@ body {
     height: 100%;
     width: 100%;
     font-family: 'Poppins', sans-serif;
-    /* background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+    background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
     background-size: 400% 400%;
-    animation: gradientBG 15s ease infinite; */
+    animation: gradientBG 15s ease infinite;
     position: relative;
     overflow: hidden;
 }
 
-/* .login-page {
+.login-page {
     height: 100vh;
     width: 100%;
     background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
@@ -29,7 +29,7 @@ body {
     0% { background-position: 0% 50%; }
     50% { background-position: 100% 50%; }
     100% { background-position: 0% 50%; }
-} */
+}
 .main{
     /* Over-all middle alignment */
     display: flex;
@@ -104,7 +104,7 @@ body {
     background: rgba(255, 255, 255, 0.9);
     display: flex;
     flex-direction: column;
-    width: 350px;
+    width: 450px;
     padding: 20px 30px;
     border-radius: 10px;
     box-shadow: 0 8px 16px rgba(0,0,0,0.3);

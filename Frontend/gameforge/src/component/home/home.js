@@ -1,49 +1,43 @@
-import React, {useState, useEffect} from "react";
-import './home.css'
-async function Fetch(setData){
-    try{
+import React, { useState, useEffect} from "react";
+import './home.css';
+import GF from './static/GameForgelogo.png';
+import List from "./req";
+async function Fetch(setData) {
+    try {
         const url = 'http://localhost:4500/fetch';
         const request = await fetch(url);
         const result = await request.json();
         console.log(result);
         setData(result);
-        sessionStorage.setItem('game-info',JSON.stringify(result,null,2));
-    }
-    catch(err){
-        console.log("Fetching error: ",err);
+        sessionStorage.setItem('game-info', JSON.stringify(result, null, 2));
+    } catch (err) {
+        console.log("Fetching error: ", err);
     }
 }
-function Home(){
-   const [data,setData] = useState(null);
-   useEffect(()=>{
-    const data = sessionStorage.getItem('game-info');
-    if (data){
-        setData(JSON.parse(data));
-    }
-    else{
-        Fetch(setData);
-    }
-   },[]);
-   return(
-    <div className="home-page">
-        <div className="nav">
 
-        </div>
-        <hr></hr>
-        <div className="home-options">
-            <div className="custom">
-                <form className="forms">
-                    <label>Project Brief</label>
-                    <input type='text-area' className="task"/>
-                    <label>Prefered Programming Languages</label>
-                    <input type='text' className="lang" />
-                </form>
-            </div>
-            <div className="templates">
+function Home() {
+    const [data, setData] = useState(null);
+    useEffect(() => {
+        const data = sessionStorage.getItem('game-info');
+        if (data) {
+            setData(JSON.parse(data));
+        } else {
+            Fetch(setData);
+        }
+    }, []);
 
+    return (
+        <div className="home-page">
+            <div className="nav">
+                <a href='/home'><button><img src={GF} className="logo" alt="GameForge logo" /></button></a>
+                <div className="right-section">
+                    <a href='#'><button className="db">Dashboard</button></a>
+                    <a href="/"><button className="signout">Sign out</button></a>
+                </div>
             </div>
+            <List />
         </div>
-    </div>
-   );
+    );
 }
+
 export default Home;
